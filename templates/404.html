@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Page Not Found - Café</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <style>
+    body {
+      background: #f7f3ef;
+    }
+    .notfound-container {
+      max-width: 500px;
+      margin: 5rem auto 0 auto;
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(111, 78, 55, 0.10);
+      padding: 2.5rem 2rem 2rem 2rem;
+      text-align: center;
+    }
+    .notfound-logo {
+      width: 70px;
+      height: 70px;
+      object-fit: contain;
+      margin-bottom: 1rem;
+    }
+    .notfound-title {
+      font-size: 2.2rem;
+      color: #6f4e37;
+      margin-bottom: 0.5rem;
+    }
+    .notfound-msg {
+      color: #b08968;
+      font-size: 1.15rem;
+      margin-bottom: 2rem;
+    }
+    .btn {
+      padding: 0.8rem 1.6rem;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 500;
+      cursor: pointer;
+      background: #6f4e37;
+      transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+      outline: none;
+    }
+    .btn:hover, .btn:focus {
+      background: #4b2e1e;
+      transform: translateY(-2px) scale(1.04);
+      box-shadow: 0 6px 24px rgba(111, 78, 55, 0.12);
+    }
+  </style>
+</head>
+<body>
+  <div class="notfound-container">
+    <img src="{{ url_for('static', filename='img/cafe-logo.png') }}" alt="Café Logo" class="notfound-logo">
+    <div class="notfound-title">404 - Page Not Found</div>
+    <div class="notfound-msg">
+      Oops! The page you’re looking for doesn’t exist.<br>
+      Maybe you want to go back to the menu and enjoy a coffee?
+    </div>
+    <a href="{{ url_for('index') }}" class="btn">Back to Home</a>
+  </div>
+</body>
+</html>

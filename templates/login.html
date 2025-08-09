@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Café Billing</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container small-container">
+        <header class="main-header" style="justify-content:center;">
+            <div style="display:flex; align-items:center;">
+                <img src="{{ url_for('static', filename='img/cafe-logo.png') }}" alt="Café Logo" class="logo">
+                <h1 style="margin:0; font-size: 2rem;">Cashier Login</h1>
+            </div>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <form action="{{ url_for('login') }}" method="post" class="auth-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input type="text" id="username" name="username" required>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required>
+            </div>
+            <button type="submit" class="btn primary">Login</button>
+        </form>
+        <div class="auth-link">
+            Don't have an account? <a href="{{ url_for('register') }}">Register now</a>
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Order Menu - Café</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <div class="container">
+        <header class="main-header">
+            <div style="display:flex; align-items:center;">
+                <img src="{{ url_for('static', filename='img/cafe-logo.png') }}" alt="Café Logo" class="logo">
+                <h1 style="margin:0; font-size: 2rem;">Café Billing System</h1>
+            </div>
+            <nav>
+                <span class="user-info">Logged in as: {{ current_user }}</span>
+                <a href="{{ url_for('index') }}" class="btn">New Order</a>
+                <a href="{{ url_for('report') }}" class="btn">Sales Report</a>
+                <a href="{{ url_for('logout') }}" class="btn secondary">Logout</a>
+            </nav>
+        </header>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class="flash {{ category }}">{{ message }}</div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
+
+        <div class="hero">
+            <img src="{{ url_for('static', filename='img/hero-coffee.jpg') }}" alt="A delicious latte" class="hero-img">
+            <div class="hero-text">
+                <h1 style="text-align:left;">Order at the Café</h1>
+                <p>Serving customer: {{ customer_name }}</p>
+            </div>
+        </div>
+
+        <form action="{{ url_for('submit_order') }}" method="post">
+            <div class="menu-section">
+                <h2 style="margin-bottom:0.5rem;">Our Menu</h2>
+                <div class="menu-grid">
+                    {% for item, price in menu.items() %}
+                    <div class="menu-item" data-price="{{ price }}">
+                        <div class="menu-item-details">
+                            <span class="menu-label">{{ item }}</span>
+                            <span class="price">${{ '%.2f'|format(price) }}</span>
+                        </div>
+                        <div class="item-controls">
+                            <label for="qty-{{ item }}" style="display:none;">Quantity</label>
+                            <input type="number" id="qty-{{ item }}" name="{{ item }}" min="0" max="99" value="0" aria-label="Quantity for {{ item }}">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="total-section">
+                <p>Total: <span id="totalDisplay">$0.00</span></p>
+            </div>
+
+            <div class="actions">
+                <button type="submit" class="btn primary">Submit Order</button>
+                <button type="reset" class="btn secondary">Clear</button>
+            </div>
+        </form>
+
+        <footer>
+            <p>&copy; {{ now().year }} Café Billing System</p>
+        </footer>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

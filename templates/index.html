@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>New Order - Café</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header class="main-header">
+      <div style="display:flex; align-items:center;">
+        <img src="{{ url_for('static', filename='img/cafe-logo.png') }}" alt="Café Logo" class="logo">
+        <h1 style="margin:0; font-size: 2rem;">Café Billing System</h1>
+      </div>
+      <nav>
+        <span class="user-info">Logged in as: {{ current_user }}</span>
+        <a href="{{ url_for('index') }}" class="btn">New Order</a>
+        <a href="{{ url_for('report') }}" class="btn">Sales Report</a>
+        <a href="{{ url_for('logout') }}" class="btn secondary">Logout</a>
+      </nav>
+    </header>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="hero">
+      <img src="{{ url_for('static', filename='img/hero-coffee.jpg') }}" alt="A delicious latte" class="hero-img">
+      <div class="hero-text">
+        <h1 style="text-align:left;">Start a New Order</h1>
+        <p>Enter the customer's details to begin.</p>
+      </div>
+    </div>
+    
+    <form action="{{ url_for('select_menu') }}" method="post" class="form-section">
+      <h2 style="margin-bottom:0.5rem;">Customer Details</h2>
+      <div class="form-group">
+        <label for="customer_name">Customer Name</label>
+        <input type="text" id="customer_name" name="customer_name" required>
+      </div>
+      <div class="form-group">
+        <label for="customer_phone">Phone Number (optional)</label>
+        <input type="tel" id="customer_phone" name="customer_phone">
+      </div>
+      <div class="actions" style="margin-top:2rem;">
+        <button type="submit" class="btn primary">Continue to Menu</button>
+      </div>
+    </form>
+
+    <footer>
+      <p>&copy; {{ now().year }} Café Billing System</p>
+    </footer>
+  </div>
+</body>
+</html>

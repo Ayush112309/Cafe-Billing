@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Your Bill - Café</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header class="main-header">
+      <div style="display:flex; align-items:center;">
+        <img src="{{ url_for('static', filename='img/cafe-logo.png') }}" alt="Café Logo" class="logo">
+        <h1 style="margin:0; font-size: 2rem;">Café Billing System</h1>
+      </div>
+      <nav>
+        <span class="user-info">Logged in as: {{ current_user }}</span>
+        <a href="{{ url_for('index') }}" class="btn">New Order</a>
+        <a href="{{ url_for('report') }}" class="btn">Sales Report</a>
+        <a href="{{ url_for('logout') }}" class="btn secondary">Logout</a>
+      </nav>
+    </header>
+    <div class="bill-header">
+      <div class="bill-success">
+        <div class="icon">✔️</div>
+        <div class="thank-you">Thank you for your order!</div>
+      </div>
+    </div>
+    <div class="customer-info">
+      <p><strong>Customer Name:</strong> {{ customer_name }}</p>
+      {% if customer_phone %}<p><strong>Phone:</strong> {{ customer_phone }}</p>{% endif %}
+      <p><strong>Cashier:</strong> {{ cashier }}</p>
+      <p><strong>Date:</strong> {{ now().strftime('%Y-%m-%d %H:%M:%S') }}</p>
+    </div>
+    <h2>Your Order Summary</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Item</th>
+          <th>Qty</th>
+          <th>Unit Price</th>
+          <th>Subtotal</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item, qty in items.items() %}
+        <tr>
+          <td>
+            {{ item }}
+          </td>
+          <td>{{ qty }}</td>
+          <td>${{ '%.2f'|format(menu[item]) }}</td>
+          <td>${{ '%.2f'|format(menu[item] * qty) }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div class="total-highlight">
+      Total: ${{ '%.2f'|format(total) }}
+    </div>
+    <footer>
+      <p>&copy; {{ now().year }} Café Billing System</p>
+    </footer>
+  </div>
+</body>
+</html>

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Sales Report</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+  <div class="container">
+    <header class="main-header">
+      <div style="display:flex; align-items:center;">
+        <img src="{{ url_for('static', filename='img/cafe-logo.png') }}" alt="Café Logo" class="logo">
+        <h1 style="margin:0; font-size: 2rem;">Café Billing System</h1>
+      </div>
+      <nav>
+        <span class="user-info">Logged in as: {{ current_user }}</span>
+        <a href="{{ url_for('index') }}" class="btn">New Order</a>
+        <a href="{{ url_for('report') }}" class="btn">Sales Report</a>
+        <a href="{{ url_for('logout') }}" class="btn secondary">Logout</a>
+      </nav>
+    </header>
+    <div class="report-header">
+      <span class="icon">📊</span>
+      <h2>Sales Report</h2>
+    </div>
+    <div class="subtitle">All completed orders are listed below.</div>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Customer</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Cashier</th>
+          <th>Date &amp; Time</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% set total_sales = 0 %}
+        {% set order_count = 0 %}
+        {% for order in orders %}
+        <tr>
+          <td>{{ order.id }}</td>
+          <td>{{ order.customer_name }}</td>
+          <td>{{ order.items }}</td>
+          <td>${{ '%.2f'|format(order.total) }}</td>
+          <td>{{ order.cashier }}</td>
+          <td>{{ order.timestamp }}</td>
+        </tr>
+        {% set total_sales = total_sales + order.total %}
+        {% set order_count = order_count + 1 %}
+        {% endfor %}
+        {% if order_count > 0 %}
+        <tr class="summary-row">
+          <td colspan="4">Total Orders: {{ order_count }}</td>
+          <td colspan="2">Total Sales: ${{ '%.2f'|format(total_sales) }}</td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="6" style="text-align:center; color:#777; font-style:italic;">No orders yet.</td>
+        </tr>
+        {% endif %}
+      </tbody>
+    </table>
+    <footer>
+      <p>&copy; {{ now().year }} Café Billing System</p>
+    </footer>
+  </div>
+</body>
+</html>
